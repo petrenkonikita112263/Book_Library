@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'BookRatingDjangoProject.urls'
+ROOT_URLCONF = 'bookr.urls'
 
 TEMPLATES = [
     {
