@@ -15,6 +15,10 @@ class Puplisher(models.Model):
         help_text="The publisher's contact email address."
     )
 
+    def __str__(self):
+        """Prints the publisher name."""
+        return self.name
+
 
 class Book(models.Model):
     """Represent the table book in db, info about published book"""
@@ -34,6 +38,10 @@ class Book(models.Model):
         "Contributor", through="BookContributor"
     )
 
+    def __str__(self):
+        """Prints the book name."""
+        return self.title
+
 
 class Contributor(models.Model):
     """A contributor to a book (e.g. author, editor, co-author)."""
@@ -46,6 +54,10 @@ class Contributor(models.Model):
     email = models.EmailField(
         help_text="The contact email for the contributor."
     )
+
+    def __str__(self):
+        """Prints the contributor name(s)."""
+        return self.first_names + " " + self.last_names
 
 
 class BookContributor(models.Model):
@@ -89,3 +101,7 @@ class Review(models.Model):
     book = models.ForeignKey(
         Book, on_delete=models.CASCADE, help_text="The Book that this review is for."
     )
+
+    def __str__(self):
+        """Prints the review content for a book."""
+        return self.content
