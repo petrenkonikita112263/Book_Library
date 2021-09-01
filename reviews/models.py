@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import auth
 
 
-class Puplisher(models.Model):
+class Publisher(models.Model):
     """Represents the table publisher in db, info about a company
     that publishes books."""
     name = models.CharField(
@@ -32,7 +32,7 @@ class Book(models.Model):
         max_length=20, verbose_name="ISBN number of the book."
     )
     publisher = models.ForeignKey(
-        Puplisher, on_delete=models.CASCADE
+        Publisher, on_delete=models.CASCADE
     )
     contributors = models.ManyToManyField(
         "Contributor", through="BookContributor"
