@@ -30,6 +30,9 @@ class Book(models.Model):
     publisher = models.ForeignKey(
         Puplisher, on_delete=models.CASCADE
     )
+    contributors = models.ManyToManyField(
+        "Contributor", through="BookContributor"
+    )
 
 
 class Contributor(models.Model):
@@ -42,6 +45,27 @@ class Contributor(models.Model):
     )
     email = models.EmailField(
         help_text="The contact email for the contributor."
+    )
+
+
+class BookContributor(models.Model):
+    """A info about book and contributor's type."""
+
+    class ContributionRole(models.TextChoices):
+        """A set of choices for contribution type."""
+        AUTHOR = "AUTHOR", "Author"
+        CO_AUTHOR = "CO_AUTHOR", "Co-Author"
+        EDITOR = "EDITOR", "Editor"
+
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE
+    )
+    contributor = models.ForeignKey(
+        Contributor, on_delete=models.CASCADE
+    )
+    role = models.CharField(
+        verbose_name="The role this contributor had in the book.", choices=ContributionRole.choices,
+        max_length=20
     )
 
 
