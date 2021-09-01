@@ -27,6 +27,9 @@ class Book(models.Model):
     isbn = models.CharField(
         max_length=20, verbose_name="ISBN number of the book."
     )
+    publisher = models.ForeignKey(
+        Puplisher, on_delete=models.CASCADE
+    )
 
 
 class Contributor(models.Model):
