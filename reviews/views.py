@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
 from .models import Book
 
 
@@ -14,6 +14,5 @@ def book_search(request):
 
 
 def welcome_view(request):
-    message = f"<html><h1>Welcome to Bookr application!</h1>" \
-              f"<p>{Book.objects.count()} books and counting!</p></html>"
-    return HttpResponse(message)
+    books_quantity = Book.objects.count()
+    return render(request, "base.html", {"books_quantity": books_quantity})
