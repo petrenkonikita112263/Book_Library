@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book's Reviews</title>
+</head>
+    <body>
+        <h1>Book Review Application</h1>
+        <hr>
+        {% for item in books_with_reviews %}
+            <p>Title: {{ item.book }}</p>
+            <p>Publisher: {{ item.book.publisher }}</p>
+            <p>Publication Date: {{ item.book.publication_date }}</p>
+            {% if not item.book_rating %}
+              <p style="color: red">The book has no reviews and ratings.</p>
+                {% else %}
+                    <p>Rating: {{ item.book_rating }}</p>
+                    <p>Number of Reviews: {{ item.number_of_reviews }}</p>
+            {% endif %}
+            <br>
+        {% endfor %}
+    </body>
+</html>
