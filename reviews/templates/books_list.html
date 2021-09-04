@@ -1,23 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Book's Reviews</title>
-</head>
-    <body>
-        <h1>Book Review Application</h1>
-        <hr>
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Book Review Page</title>
+{% endblock %}
+
+{% block content %}
+    <ul class="list-group">
         {% for item in books_with_reviews %}
-            <p>Title: {{ item.book }}</p>
-            <p>Publisher: {{ item.book.publisher }}</p>
-            <p>Publication Date: {{ item.book.publication_date }}</p>
-            {% if not item.book_rating %}
-              <p style="color: red">The book has no reviews and ratings.</p>
-                {% else %}
-                    <p>Rating: {{ item.book_rating }}</p>
-                    <p>Number of Reviews: {{ item.number_of_reviews }}</p>
-            {% endif %}
-            <br>
+            <li class="list-group-item">
+                <span class="text-info">Title: </span>
+                <span>{{ item.book }}</span>
+                <br>
+                <span class="text-info">Publisher: </span>
+                <span>{{ item.book.publisher }}</span>
+                <br>
+                <span class="text-info">Publication Date: </span>
+                <span>{{ item.book.publication_date }}</span>
+                <br>
+                {% if not item.book_rating %}
+                  <p style="color: red">The book has no reviews and ratings.</p>
+                  <span class="text-secondary">
+                      Please, provide a rating and write the first review for this book.
+                  </span>
+                    {% else %}
+                        <span class="text-info">Rating: </span>
+                        <span>{{ item.book_rating }}</span>
+                        <br>
+                        <span class="text-info">Number of Reviews: </span>
+                        <span>{{ item.number_of_reviews }}</span>
+                {% endif %}
+                <br>
+                    <!--
+                    Button that allows to crate the review for a book
+                    by selected it by id.
+                     -->
+                <br>
+            </li>
         {% endfor %}
-    </body>
-</html>
+    </ul>
+{% endblock %}
