@@ -1,14 +1,6 @@
-from django.contrib.admin import AdminSite
+from admin import BookrAdminSite
 from reviews.models import Publisher, Book, Contributor, \
     BookContributor, Review
-
-
-class BookrAdminSite(AdminSite):
-    """Custom admin site for Bookr application."""
-    title_header = "Bookr Admin"
-    site_header = "Bookr administration"
-    index_title = "Book site admin"
-
 
 admin_site = BookrAdminSite(name="bookr")
 
