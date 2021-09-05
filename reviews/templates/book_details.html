@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Book Details</title>
+{% endblock %}
+
+{% block  content %}
+    <br>
+    <h3>Book information</h3>
+    <span class="text-info">Title: </span>
+    <span>{{ book.title }}</span>
+    <br>
+    <span class="text-info">Publisher: </span>
+    <span>{{ book.publisher }}</span>
+    <br>
+    <span class="text-info">Publication Date: </span>
+    <span>{{ book.publication_date }}</span>
+    <br>
+    {% if not reviews %}
+        <p style="color: red">There're no reviews for the book.</p>
+    {% else %}
+        <span class="text-info">Overall Rating: </span>
+        <span class="badge badge-primary badge-pill">{{ book_rating }}</span>
+        <br>
+        <h3>Review information</h3>
+        <ul class="list-group">
+            {% for review in reviews %}
+                <li class="list-group-item">
+                    <span class="text-info">Review Text: </span>
+                    <span>{{ review.content }}</span>
+                    <br>
+                    <span class="text-info">Created On: </span>
+                    <span>{{ review.date_created }}</span>
+                    <br>
+                    <span class="text-info">Edited On: </span>
+                    <span>{{ review.date_edited }}</span>
+                    <br>
+                    <span class="text-info">Rating: </span>
+                    <span>{{ review.rating }}</span>
+                    <br>
+                    <span class="text-info">Creator: </span>
+                    <span>{{ review.creator }}</span>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

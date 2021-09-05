@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from .models import Book, Review
+from .models import Book
 from .utils import average_rating
 
 
@@ -20,19 +20,22 @@ def welcome_view(request):
 
 
 def book_list(request):
-    books = Book.objects.all()                                      # query all books from table
+    """Lists all the books from Book table. Each book has own list of reviews.
+    Based on this list finds the average rating. Created the list of dictionaries
+    to display the information on html page."""
+    books = Book.objects.all()
     books_with_reviews = []
     for book in books:
-        reviews = book.review_set.all()                             # get all reviews for each book
-        if reviews:                                                 # if there're any reviews
+        reviews = book.review_set.all()
+        if reviews:
             book_rating = average_rating(
-                [review.rating for review in reviews]               # list comprehension
+                [review.rating for review in reviews]
             )
             number_of_reviews = len(reviews)
         else:
             book_rating = None
             number_of_reviews = 0
-        books_with_reviews.append(                                  # add a list of dictionaries
+        books_with_reviews.append(
             {
                 "book": book,
                 "book_rating": book_rating,
@@ -43,3 +46,27 @@ def book_list(request):
         "books_with_reviews": books_with_reviews
     }
     return render(request, "books_list.html", context)
+
+
+def get_book_detail(request, book_id: int):
+    """Retrieves book object by its primary, for that book all the views
+    were collected. Calculates the average rating for the book based on reviews.
+    Created the dictionary fro displaying all this info in html page."""
+    book = get_object_or_404(Book, pk=book_id)
+    reviews = book.review_set.all()
+    if reviews:
+        book_rating = average_rating(
+            [review.rating for review in reviews]
+        )
+        context = {
+            "book": book,
+            "book_rating": book_rating,
+            "reviews": reviews
+        }
+    else:
+        context = {
+            "book": book,
+            "book_rating": None,
+            "reviews": None
+        }
+    return render(request, "book_details.html", context)
