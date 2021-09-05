@@ -30,10 +30,8 @@
                         <span>{{ item.number_of_reviews }}</span>
                 {% endif %}
                 <br>
-                    <!--
-                    Button that allows to crate the review for a book
-                    by selected it by id.
-                     -->
+                    <a class="btn btn-primary btn-sm active"
+                       role="button" href="{% url 'get_book_detail' item.book.pk %}">Reviews</a></li>
                 <br>
             </li>
         {% endfor %}
