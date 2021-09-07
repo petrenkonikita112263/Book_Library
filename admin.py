@@ -11,3 +11,5 @@ class BookrAdminSite(admin.AdminSite):
 class BookAdmin(admin.ModelAdmin):
     """Customise the book displaying in admin site."""
     list_display = ("title", "isbn")
+    list_filter = ("publisher", "publication_date")
+    date_hierarchy = "publication_date"
