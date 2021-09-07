@@ -55,9 +55,16 @@ class Contributor(models.Model):
         help_text="The contact email for the contributor."
     )
 
+    def initialled_name(self):
+        """Create string with first name as initials and second name."""
+        initials = "".join(
+            [name[0] for name in self.first_names.split(" ")]
+        )
+        return f"{self.last_names}, {initials}"
+
     def __str__(self):
         """Prints the contributor name(s)."""
-        return self.first_names + " " + self.last_names
+        return self.initialled_name()
 
 
 class BookContributor(models.Model):
