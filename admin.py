@@ -14,3 +14,7 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ("publisher", "publication_date")
     date_hierarchy = "publication_date"
     search_fields = ("title", "isbn", "publisher__name__startswith")
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    exclude = ("date_edited",)
