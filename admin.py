@@ -18,3 +18,11 @@ class BookAdmin(admin.ModelAdmin):
 
 class ReviewAdmin(admin.ModelAdmin):
     exclude = ("date_edited",)
+    fieldsets = (
+        (
+            "Linkage", {"fields": ("creator", "book")}
+        ),
+        (
+            "Review content", {"fields": ("content", "rating")}
+        )
+    )
