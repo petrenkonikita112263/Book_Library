@@ -26,3 +26,10 @@ class ReviewAdmin(admin.ModelAdmin):
             "Review content", {"fields": ("content", "rating")}
         )
     )
+
+
+class ContributorAdmin(admin.ModelAdmin):
+    """Customise list of contributor's names."""
+    list_display = ("first_names", "last_names")
+    list_filter = ("last_names",)
+    search_fields = ("first_names", "last_names__startswith")
