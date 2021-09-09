@@ -4,19 +4,14 @@ from .models import Book
 from .utils import average_rating
 
 
-def index(request):
-    name = "world"
-    return render(request, "base.html", {"name": name})
+def welcome_view(request):
+    books_quantity = Book.objects.count()
+    return render(request, "reviews/base.html", {"books_quantity": books_quantity})
 
 
 def book_search(request):
     search_item = request.GET.get("search", "")
-    return render(request, "search_results.html", {"search_item": search_item})
-
-
-def welcome_view(request):
-    books_quantity = Book.objects.count()
-    return render(request, "base.html", {"books_quantity": books_quantity})
+    return render(request, "reviews/search_results.html", {"search_item": search_item})
 
 
 def book_list(request):
@@ -45,7 +40,7 @@ def book_list(request):
     context = {
         "books_with_reviews": books_with_reviews
     }
-    return render(request, "books_list.html", context)
+    return render(request, "reviews/books_list.html", context)
 
 
 def get_book_detail(request, book_id: int):
@@ -69,4 +64,4 @@ def get_book_detail(request, book_id: int):
             "book_rating": None,
             "reviews": None
         }
-    return render(request, "book_details.html", context)
+    return render(request, "reviews/book_details.html", context)
