@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import Book
+from .models import Book, Contributor
 from .utils import average_rating
 from .forms import SearchForm
 
@@ -20,7 +20,10 @@ def book_search(request):
         if search_in == "title":
             books.add(Book.objects.filter(title__icontains=search))
         else:
-            pass
+            first_names = Contributor.objects.filter(first_names__icontains=search)
+            for contributor in first_names:
+                for book in contributor.book_set.all():
+                    books.add(book)
     return render(request, "reviews/search_results.html", {"search_item": search_item})
 
 
