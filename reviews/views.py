@@ -24,6 +24,10 @@ def book_search(request):
             for contributor in first_names:
                 for book in contributor.book_set.all():
                     books.add(book)
+            last_names = Contributor.objects.filter(last_names__icontains=search)
+            for contributor in last_names:
+                for book in contributor.book_set.all():
+                    books.add(book)
     return render(request, "reviews/search_results.html", {"search_item": search_item})
 
 
