@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import Book
 from .utils import average_rating
+from .forms import SearchForm
 
 
 def welcome_view(request):
@@ -11,6 +12,7 @@ def welcome_view(request):
 
 def book_search(request):
     search_item = request.GET.get("search", "")
+    form = SearchForm(request.GET)
     return render(request, "reviews/search_results.html", {"search_item": search_item})
 
 
