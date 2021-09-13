@@ -18,7 +18,7 @@ def book_search(request):
         search = form.cleaned_data["search"]
         search_in = form.cleaned_data.get("search_in") or "title"
         if search_in == "title":
-            books.add(Book.objects.filter(title__icontains=search))
+            books = Book.objects.filter(title__icontains=search)
         else:
             first_names = Contributor.objects.filter(first_names__icontains=search)
             for contributor in first_names:
@@ -30,7 +30,8 @@ def book_search(request):
                     books.add(book)
     return render(request, "reviews/search_results.html", {
         "form": form,
-        "search_item": search_item
+        "search_item": search_item,
+        "books": books
     })
 
 
