@@ -28,7 +28,10 @@ def book_search(request):
             for contributor in last_names:
                 for book in contributor.book_set.all():
                     books.add(book)
-    return render(request, "reviews/search_results.html", {"search_item": search_item})
+    return render(request, "reviews/search_results.html", {
+        "form": form,
+        "search_item": search_item
+    })
 
 
 def book_list(request):
