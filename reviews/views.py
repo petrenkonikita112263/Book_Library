@@ -13,6 +13,14 @@ def welcome_view(request):
 def book_search(request):
     search_item = request.GET.get("search", "")
     form = SearchForm(request.GET)
+    books = set()
+    if form.is_valid() and form.cleaned_data["search"]:
+        search = form.cleaned_data["search"]
+        search_in = form.cleaned_data.get("search_in") or "title"
+        if search_in == "title":
+            books.add(Book.objects.filter(title__icontains=search))
+        else:
+            pass
     return render(request, "reviews/search_results.html", {"search_item": search_item})
 
 
