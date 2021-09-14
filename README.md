@@ -20,6 +20,12 @@ To get started with the project files, you'll need to:
 4. Click on Book Review Page in navbar or go to http://127.0.0.1:8000/books to see all the books with information about them
 5. On Book Review Page click blue button Review to select the book and to see review information about it ratings:
    - _NOTE_ only first Book have reviews, for others there's red text information, so it soon may be added.
+6. Open this page http://127.0.0.1:8000/book_search if you want to find a book by its title or contributor's name:
+   - the limitation for book's title is it can be less than 3 characters, same thing for first or last name of contributor
+   - the searching isn't case-sensitive
+   - if there's no book the text _Nothing was found_ will be placed on page
+   - the title of page will be _Search Results for_ .... if the form is filled otherwise the title will be _Book Search_.
+
 
 ## Administration
 To access Django Admin staff of this application go to http://127.0.0.1:8000/admin.
