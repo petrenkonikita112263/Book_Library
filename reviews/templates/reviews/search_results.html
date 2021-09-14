@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search Results: {{ search_item }}</title>
-</head>
-    <body>
-        <h1>Search for <em>{{ search_item }}</em></h1>
-    </body>
-</html>
+{% extends "reviews/base.html" %}
+
+{% block title %}
+    {% if form.is_valid and search_item %}
+        <title>Search Results for {{ search_item }}</title>
+    {% else %}
+        <title>Book Search</title>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2>Search for Books</h2>
+    <form>
+        {{ form.as_p }}
+        <p>
+            <input type="submit" name="submit_input" value="Submit Input">
+        </p>
+    </form>
+    {% if form.is_valid and search_item %}
+        <h3>Search Results for
+            <em>{{ search_item }}</em>
+        </h3>
+        <ul class="list-group">
+        {% for book in books %}
+            <li class="list-group-item">
+                <span class="text-info">Title: </span> <a href="{% url 'get_book_detail' book.pk %}">{{ book }}</a>
+                <br>
+                <span class="text-info">Contributors: </span>
+                {% for contributor in book.contributors.all %}
+                    {{ contributor.first_names }} {{ contributor.last_names }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">No results found.</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
