@@ -89,6 +89,24 @@ def get_book_detail(request, book_id: int):
     return render(request, "reviews/book_details.html", context)
 
 
-def publisher_edit(request, pk=None):
+def publisher_edit(request, publisher_id=None):
     """View based function that edits the existed publisher by id or created the new one
     if the id was not sent."""
+    if publisher_id is not None:
+        publisher = get_object_or_404(Publisher, pk=publisher_id)
+    else:
+        publisher = None
+    if request.method == "POST":
+        form = PublisherForm(request.POST, instance=publisher)
+        if form.is_valid():
+            updated_publisher = form.save()
+            if publisher is None:
+                messages.success(request, f"Publisher {updated_publisher} was created.")
+            else:
+                messages.success(request, f"Publisher {updated_publisher} was updated.")
+            return redirect("publisher_edit", updated_publisher.pk)
+    else:
+        form = PublisherForm(instance=publisher)
+    return render(request, "reviews/form_example.html", {
+        "method": request.method, "form": form
+    })
