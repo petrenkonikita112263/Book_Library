@@ -55,10 +55,12 @@
             </form>
           </div>
         </nav>
-        {% block content %}
-        <h1>Welcome to Bookr application!</h1>
-        <p>{{ books_quantity }} books are counting!</p>
-        {% endblock %}
+        <div class="container-fluid">
+            {% block content %}
+            <h1>Welcome to Bookr application!</h1>
+            <p>{{ books_quantity }} books are counting!</p>
+            {% endblock %}
+        </div>
         <!-- Copyright -->
           <footer class="page-footer font-small blue">
             <div class="footer-copyright text-center py-3">© 2021 Copyright
