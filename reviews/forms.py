@@ -1,4 +1,5 @@
 from django import forms
+from .models import Publisher
 
 SEARCH_CHOICES = (
     ("title", "Title"),
