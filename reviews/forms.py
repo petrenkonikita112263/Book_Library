@@ -12,3 +12,8 @@ class SearchForm(forms.Form):
     or first|last names of contributor."""
     search = forms.CharField(required=False, min_length=3)
     search_in = forms.ChoiceField(required=False, choices=SEARCH_CHOICES)
+
+
+class PublisherForm(forms.Form):
+    """Creates the form based on Publisher model."""
+    pass
