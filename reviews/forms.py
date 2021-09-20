@@ -14,6 +14,9 @@ class SearchForm(forms.Form):
     search_in = forms.ChoiceField(required=False, choices=SEARCH_CHOICES)
 
 
-class PublisherForm(forms.Form):
+class PublisherForm(forms.ModelForm):
     """Creates the form based on Publisher model."""
-    pass
+
+    class Meta:
+        model = Publisher
+        fields = "__all__"
