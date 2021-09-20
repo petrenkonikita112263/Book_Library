@@ -87,3 +87,8 @@ def get_book_detail(request, book_id: int):
             "reviews": None
         }
     return render(request, "reviews/book_details.html", context)
+
+
+def publisher_edit(request, pk=None):
+    """View based function that edits the existed publisher by id or created the new one
+    if the id was not sent."""
