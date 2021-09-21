@@ -7,5 +7,9 @@ from . import views
 urlpatterns = [
     path("", views.welcome_view, name="welcome_view"),
     path("books/", views.book_list, name="book_list"),
-    path("books/<int:book_id>", views.get_book_detail, name="get_book_detail")
+    path("books/<int:book_id>", views.get_book_detail, name="get_book_detail"),
+    path("publisher/<int:publisher_id>", views.publisher_edit, name="publisher_edit"),
+    path("publisher/new/", views.publisher_edit, name="publisher_create"),
+    path("books/<int:book_id>/reviews/<int:review_id>", views.review_edit, name="review_edit"),
+    path("books/<int:book_id>/review/new", views.review_edit, name="review_create")
 ]
