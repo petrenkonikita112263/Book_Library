@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.utils import timezone
 
-from .models import Book, Contributor, Publisher
+from .models import Book, Contributor, Publisher, Review
 from .utils import average_rating
-from .forms import SearchForm, PublisherForm
+from .forms import SearchForm, PublisherForm, ReviewForm
 
 
 def welcome_view(request):
@@ -111,4 +112,35 @@ def publisher_edit(request, publisher_id=None):
         "form": form,
         "instance": publisher,
         "model_type": "Publisher"
+    })
+
+
+def review_edit(request, book_id, review_id=None):
+    """View based function that edits the existed review for the book
+    or assign new to the fetch book."""
+    book = get_object_or_404(Book, pk=book_id)
+    if review_id is not None:
+        review = get_object_or_404(Review, book_id=book_id, pk=review_id)
+    else:
+        review = None
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            updated_review = form.save(commit=False)
+            updated_review.book = book
+            if review is None:
+                messages.success(request, f"Review for the {book} was created.")
+            else:
+                updated_review.date_edited = timezone.now()
+                messages.success(request, f"Review for the {book} was updated.")
+            updated_review.save()
+            redirect("get_book_detail", book.pk)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, "reviews/instance_form.html", {
+        "form": form,
+        "instance": review,
+        "model_type": "Review",
+        "related_instance": book,
+        "related_model_type": Book
     })
