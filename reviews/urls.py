@@ -11,5 +11,6 @@ urlpatterns = [
     path("publisher/<int:publisher_id>", views.publisher_edit, name="publisher_edit"),
     path("publisher/new/", views.publisher_edit, name="publisher_create"),
     path("books/<int:book_id>/reviews/<int:review_id>", views.review_edit, name="review_edit"),
-    path("books/<int:book_id>/review/new", views.review_edit, name="review_create")
+    path("books/<int:book_id>/review/new", views.review_edit, name="review_create"),
+    path("books/<int:book_id>/media/", views.book_media, name="book_media")
 ]
