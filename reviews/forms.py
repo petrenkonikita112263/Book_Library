@@ -1,5 +1,5 @@
 from django import forms
-from .models import Publisher, Review
+from .models import Publisher, Review, Book
 
 SEARCH_CHOICES = (
     ("title", "Title"),
@@ -31,3 +31,11 @@ class ReviewForm(forms.ModelForm):
         exclude = ["date_edited", "book"]
 
     rating = forms.IntegerField(min_value=0, max_value=5)
+
+
+class BookMediaForm(forms.ModelForm):
+    """Creates the form for uploading cover and sample of the book."""
+
+    class Meta:
+        model = Book
+        fields = ["cover", "sample"]
