@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
+from django.core.files.images import ImageFile
+
+from PIL import Image
+from io import BytesIO
 
 from .models import Book, Contributor, Publisher, Review
 from .utils import average_rating
-from .forms import SearchForm, PublisherForm, ReviewForm
+from .forms import SearchForm, PublisherForm, ReviewForm, BookMediaForm
 
 
 def welcome_view(request):
@@ -144,3 +148,33 @@ def review_edit(request, book_id, review_id=None):
         "related_instance": book,
         "related_model_type": Book
     })
+
+
+def book_media(request, book_id):
+    """View based function that allow user to add media to the existed book."""
+    book = get_object_or_404(Book, pk=book_id)
+    if request.method == "POST":
+        form = BookMediaForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            book = form.save(commit=False)
+            cover = form.cleaned_data.get("cover")
+            if cover:
+                image = Image.open(cover)
+                image.thumbnail((300, 300))
+                image_data = BytesIO()
+                image.save(fp=image_data, format=cover.image.format)
+                image_file = ImageFile(image_data)
+                book.cover.save(cover.name, image_file)
+            book.save()
+            messages.success(request, f"Book {book} was updated.")
+            return redirect("get_book_detail", book.pk)
+    else:
+        form = BookMediaForm(instance=book)
+    return render(
+        request, "reviews/instance_form.html", {
+            "form": form,
+            "instance": book,
+            "model_type": "Book",
+            "is_file_upload": True
+        }
+    )
