@@ -28,7 +28,10 @@
     {% endif %}
     <br>
     {% if not reviews %}
-        <p style="color: red">There're no reviews for the book.</p>
+        <hr>
+        {% if user.is_authenticated %}
+            <p style="color: red">There're no reviews for the book.</p>
+        {% endif %}
     {% else %}
         <span class="text-info">Overall Rating: </span>
         <span class="badge badge-primary badge-pill">{{ book_rating }}</span>
