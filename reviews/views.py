@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test, login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
@@ -132,6 +133,9 @@ def review_edit(request, book_id, review_id=None):
     book = get_object_or_404(Book, pk=book_id)
     if review_id is not None:
         review = get_object_or_404(Review, book_id=book_id, pk=review_id)
+        user = request.user
+        if not user.is_staff and review.creator.id != user.id:
+            raise PermissionDenied
     else:
         review = None
     if request.method == "POST":
