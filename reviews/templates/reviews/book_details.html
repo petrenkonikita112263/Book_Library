@@ -55,9 +55,11 @@
                     <span class="text-info">Creator: </span>
                     <span>{{ review.creator }}</span>
                 </li>
-                <a href="{% url 'review_edit' book.pk review.pk %}">
-                    <input type="submit" class="btn btn-primary" value="Edit Review">
-                </a>
+                {% if user.is_staff or review.creator.id == user.id %}
+                    <a href="{% url 'review_edit' book.pk review.pk %}">
+                        <input type="submit" class="btn btn-primary" value="Edit Review">
+                    </a>
+                {% endif %}
                 <br>
             {% endfor %}
         </ul>
