@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
@@ -125,6 +125,7 @@ def publisher_edit(request, publisher_id=None):
     })
 
 
+@login_required
 def review_edit(request, book_id, review_id=None):
     """View based function that edits the existed review for the book
     or assign new to the fetch book."""
@@ -156,6 +157,7 @@ def review_edit(request, book_id, review_id=None):
     })
 
 
+@login_required
 def book_media(request, book_id):
     """View based function that allow user to add media to the existed book."""
     book = get_object_or_404(Book, pk=book_id)
