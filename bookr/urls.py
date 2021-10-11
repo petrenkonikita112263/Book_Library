@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 import reviews.views
 
 urlpatterns = [
+    path('accounts/', include(('django.contrib.auth.urls', 'auth'),
+                              namespace='accounts')),
     path('admin/', admin.site.urls),
     path("", include("reviews.urls")),
     path("book_search/", reviews.views.book_search)
