@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
@@ -95,7 +95,11 @@ def get_book_detail(request, book_id: int):
     return render(request, "reviews/book_details.html", context)
 
 
-@permission_required("edit_publisher")
+def is_staff_user(user):
+    return user.is_staff
+
+
+@user_passes_test(is_staff_user)
 def publisher_edit(request, publisher_id=None):
     """View based function that edits the existed publisher by id or created the new one
     if the id was not sent."""
