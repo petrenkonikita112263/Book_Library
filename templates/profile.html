@@ -38,9 +38,21 @@
             <h2>Viewed books</h2>
             <p>
                 {% for book_id, book_title in request.session.viewed_books %}
-                    <a href="/books/{{ book_id }}">{{ book_title}}</a><br>
-                    {% empty %}
-                        No recently viewed books found.
+                    <a href="/books/{{ book_id }}">{{ book_title }}</a><br>
+                {% empty %}
+                    No recently viewed books found.
+                {% endfor %}
+            </p>
+        </div>
+        <div class="infocell">
+            <h2>Search history</h2>
+            <p>
+                {% for search_in, search in request.session.search_history %}
+                    <a href="{% url 'book_search' %}?search={{ search }}&search_in={{ search_in }}">
+                        {{ search }} ({{ search_in }})
+                    </a><br>
+                {% empty %}
+                    No search history found.
                 {% endfor %}
             </p>
         </div>
