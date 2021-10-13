@@ -45,14 +45,25 @@
               <li class="nav-item active">
                 <a class="nav-link" href="/books/">Book Review Page</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
-              </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/logout">Logout</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login">Login</a>
+                </li>
+              {% endif %}
             </ul>
             <form class="form-inline my-2 my-lg-0">
               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            {% if user.is_authenticated %}
+                <span style="color: blue; padding-left: 10px">
+                    User: {{ request.user.username }}
+                </span>
+            {% endif %}
           </div>
         </nav>
         <div class="container-fluid">

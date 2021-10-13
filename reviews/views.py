@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
@@ -18,6 +20,7 @@ def welcome_view(request):
 
 def book_search(request):
     search_item = request.GET.get("search", "")
+    search_history = request.session.get("search_history", [])
     form = SearchForm(request.GET)
     books = set()
     if form.is_valid() and form.cleaned_data["search"]:
@@ -34,6 +37,15 @@ def book_search(request):
             for contributor in last_names:
                 for book in contributor.book_set.all():
                     books.add(book)
+        if request.user.is_authenticated:
+            search_history.append([search_in, search])
+            request.session["search_history"] = search_history
+    elif search_history:
+        initial = dict(
+            search=search_item,
+            search_in=search_history[-1][0]
+        )
+        form = SearchForm(initial=initial)
     return render(request, "reviews/search_results.html", {
         "form": form,
         "search_item": search_item,
@@ -91,9 +103,23 @@ def get_book_detail(request, book_id: int):
             "book_rating": None,
             "reviews": None
         }
+    if request.user.is_authenticated:
+        max_viewed_books_length = 10
+        viewed_books = request.session.get("viewed_books", [])
+        viewed_book = [book.id, book.title]
+        if viewed_book in viewed_books:
+            viewed_books.pop(viewed_books.index(viewed_book))
+        viewed_books.insert(0, viewed_book)
+        viewed_books = viewed_books[:max_viewed_books_length]
+        request.session["viewed_books"] = viewed_books
     return render(request, "reviews/book_details.html", context)
 
 
+def is_staff_user(user):
+    return user.is_staff
+
+
+@user_passes_test(is_staff_user)
 def publisher_edit(request, publisher_id=None):
     """View based function that edits the existed publisher by id or created the new one
     if the id was not sent."""
@@ -119,12 +145,16 @@ def publisher_edit(request, publisher_id=None):
     })
 
 
+@login_required
 def review_edit(request, book_id, review_id=None):
     """View based function that edits the existed review for the book
     or assign new to the fetch book."""
     book = get_object_or_404(Book, pk=book_id)
     if review_id is not None:
         review = get_object_or_404(Review, book_id=book_id, pk=review_id)
+        user = request.user
+        if not user.is_staff and review.creator.id != user.id:
+            raise PermissionDenied
     else:
         review = None
     if request.method == "POST":
@@ -150,6 +180,7 @@ def review_edit(request, book_id, review_id=None):
     })
 
 
+@login_required
 def book_media(request, book_id):
     """View based function that allow user to add media to the existed book."""
     book = get_object_or_404(Book, pk=book_id)
