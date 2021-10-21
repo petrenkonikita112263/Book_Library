@@ -10,6 +10,7 @@ class BookrAdmin(admin.AdminSite):
     def profile_view(self, request):
         request.current_app = self.name
         context = self.each_context(request)
+        context["username"] = request.user.username
         return TemplateResponse(
             request, "admin/admin_profile.html", context
         )
