@@ -20,12 +20,13 @@ from django.conf.urls.static import static
 
 import bookr.views
 import reviews.views
+from bookr_admin.admin import admin_site
 
 urlpatterns = [
     path('accounts/', include(('django.contrib.auth.urls', 'auth'),
                               namespace='accounts')),
     path('accounts/profile/', bookr.views.profile, name='profile'),
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     path("", include("reviews.urls")),
     path("book_search/", reviews.views.book_search, name="book_search")
 ]
