@@ -10,10 +10,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    {#  custom css  #}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Source+Sans+Pro&display=swap">
     {% block title %}
     <title>Home Page</title>
     {% endblock %}
-    <style type="text/css">
+    <style>
       .navbar {
         min-height: 100px;
         font-size: 25px;
@@ -21,11 +25,18 @@
       .navbar-brand {
         font-size: 25px;
       }
+      .navbar-brand > img {
+          height: 60px;
+      }
     </style>
 </head>
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-          <a class="navbar-brand" href="/">Home Page</a>
+          <a class="navbar-brand" href="/">
+              {% block brand %}
+                <img src="{% static 'logo.png' %}" alt="book_logo">
+              {% endblock %}
+          </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -34,20 +45,45 @@
               <li class="nav-item active">
                 <a class="nav-link" href="/books/">Book Review Page</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
-              </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/logout">Logout</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login">Login</a>
+                </li>
+              {% endif %}
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'book_search' %}">
+                {% csrf_token %}
+              <input class="form-control mr-sm-2" type="search" placeholder="Search for book" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            {% if user.is_authenticated %}
+                <span style="color: blue; padding-left: 10px">
+                    User: {{ request.user.username }}
+                </span>
+            {% endif %}
           </div>
         </nav>
-        {% block content %}
-        <h1>Welcome to Bookr application!</h1>
-        <p>{{ books_quantity }} books are counting!</p>
-        {% endblock %}
+        <div class="container-fluid">
+            {% for message in messages %}
+                <div class="alert alert-
+                    {% if message.level_tag == 'error' %}
+                    danger
+                    {% else %}
+                    {{ message.level_tag }}
+                    {% endif %}"
+                    role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+                {% block content %}
+                <h1>Welcome to Bookr application!</h1>
+                <p>{{ books_quantity }} books are counting!</p>
+                {% endblock %}
+        </div>
         <!-- Copyright -->
           <footer class="page-footer font-small blue">
             <div class="footer-copyright text-center py-3">© 2021 Copyright
