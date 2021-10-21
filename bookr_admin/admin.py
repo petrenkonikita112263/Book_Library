@@ -4,7 +4,9 @@ from django.urls import path
 
 
 class BookrAdmin(admin.AdminSite):
+    title_header = "Bookr Admin"
     site_header = "Bookr administration"
+    index_title = "Book site admin"
     logout_template = "admin/logout.html"
 
     def profile_view(self, request):
