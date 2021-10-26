@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def index(request):
+    names = "john,doe,mark,swain"
+    return render(request, "filter_demo/index.html", {"names": names})
