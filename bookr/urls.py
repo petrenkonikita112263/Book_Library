@@ -29,7 +29,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("reviews.urls")),
     path("book_search/", reviews.views.book_search, name="book_search"),
-    path("filter_demo/", include("filter_demo.urls"))
+    path("filter_demo/", include("filter_demo.urls")),
+    path("book_management/",  include("book_management.urls"))
 ]
 
 if settings.DEBUG:
