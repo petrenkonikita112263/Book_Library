@@ -6,7 +6,7 @@ from .forms import BookForm
 from .models import Book
 
 
-class BookRecordFormView(FormView):
+class BookCreateView(FormView):
     template_name = "book_management/book_form.html"
     form_class = BookForm
     success_url = "/book_management/entry_success"
