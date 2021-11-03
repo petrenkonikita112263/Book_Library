@@ -16,7 +16,7 @@ from .forms import SearchForm, PublisherForm, ReviewForm, BookMediaForm
 
 def welcome_view(request):
     books_quantity = Book.objects.count()
-    return render(request, "reviews/base.html", {"books_quantity": books_quantity})
+    return render(request, "base.html", {"books_quantity": books_quantity})
 
 
 def book_search(request):
