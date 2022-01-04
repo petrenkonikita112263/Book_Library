@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load profile_tags %}
+
 {% block title %}Bookr{% endblock %}
 
 {% block content %}
@@ -33,6 +35,7 @@
                 Email: {{ request.user.email }}<br>
                 Last Login: {{ request.user.last_login }}<br>
             </p>
+            {% book_list user.username %}
         </div>
         <div class="infocell">
             <h2>Viewed books</h2>
