@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book, Publisher
+from .models import Book, Publisher, Contributor
 
 
 class PublisherSerializer(serializers.ModelSerializer):
@@ -10,6 +10,15 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     publisher = PublisherSerializer()
+
     class Meta:
         model = Book
         fields = ["title", "publication_date", "isbn", "publisher"]
+
+
+class ContributionSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+
+    class Meta:
+        model = Contributor
+        fields = ["book", "role"]
