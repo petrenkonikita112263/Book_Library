@@ -11,6 +11,6 @@ def first_api_view(request):
     return Response({"number_books": number_books})
 
 
-class AllBooks(generics.GenericAPIView):
+class AllBooks(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
