@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from . import views
+from . import views, api_views
 
 urlpatterns = [
     path("", views.welcome_view, name="welcome_view"),
@@ -12,5 +12,6 @@ urlpatterns = [
     path("publisher/new/", views.publisher_edit, name="publisher_create"),
     path("books/<int:book_id>/reviews/<int:review_id>", views.review_edit, name="review_edit"),
     path("books/<int:book_id>/review/new", views.review_edit, name="review_create"),
-    path("books/<int:book_id>/media/", views.book_media, name="book_media")
+    path("books/<int:book_id>/media/", views.book_media, name="book_media"),
+    path("api/first_api_view/", api_views.first_api_view)
 ]
