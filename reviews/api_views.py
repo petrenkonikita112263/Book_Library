@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import generics, viewsets
-from .models import Book, Contributor
-from .serializers import BookSerializer, ContributorSerializer
+from .models import Book, Contributor, Review
+from .serializers import BookSerializer, ContributorSerializer, ReviewSerializer
 
 
 @api_view(http_method_names=["GET"])
@@ -20,3 +20,10 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
 class ContributorView(generics.ListAPIView):
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
+
+
+class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Review.objects.order_by("-date_created")
+    serializer_class = ReviewSerializer
+    pagination_class = LimitOffsetPagination
+    authentication_classes = []
