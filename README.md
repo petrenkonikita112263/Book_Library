@@ -41,6 +41,17 @@ To get started with the project files, you'll need to:
       the cover of the book and the download link for sample The uploaded files will be saved in two media folder in
       root director for image file _media/book_covers/_ and for documents
       _media/book_samples/_. You can verify it go to url http://127.0.0.1:8000/media/book_covers/[your_image_name].
+8. API urls:
+    - to get number of books as JSON response use this link http://127.0.0.1:8000/api/first_api_view/
+    - for other APIs you need a token , so first go to http://0.0.0.0:8000/api/login and send this info:
+      `{"username": "[real_username]", "password": "[real_password]"}`
+    - To pass the Authorization token (obtained in step 7) as a header, you can use the following command (Windows users
+      can replace curl with curl.exe):
+      `curl -X GET http://127.0.0.1:8000/api/books/ -H "Authorization: Token your_token"`
+    - http://127.0.0.1:8000/api/books/ print JSON with details to every book, for
+      specific http://127.0.0.1:8000/api/books/1/
+    - to display all contributors http://127.0.0.1:8000/api/contributors/ or all
+      reviews http://127.0.0.1:8000/api/reviews/ to get specific same thing as with books.
 
 ## Administration
 
