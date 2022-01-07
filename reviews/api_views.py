@@ -21,18 +21,23 @@ def first_api_view(request):
 class BookViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class ContributorView(generics.ListAPIView):
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Review.objects.order_by("-date_created")
     serializer_class = ReviewSerializer
     pagination_class = LimitOffsetPagination
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class Login(APIView):
