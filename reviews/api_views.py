@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework import generics, viewsets
 from .models import Book, Contributor
 from .serializers import BookSerializer, ContributorSerializer
 
@@ -11,7 +12,7 @@ def first_api_view(request):
     return Response({"number_books": number_books})
 
 
-class AllBooks(generics.ListAPIView):
+class BookViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
