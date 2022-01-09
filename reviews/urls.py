@@ -2,6 +2,8 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+import bookr.views
 from . import views, api_views
 
 router = DefaultRouter()
@@ -20,5 +22,6 @@ urlpatterns = [
     path("api/first_api_view/", api_views.first_api_view),
     path("api/", include((router.urls, "api"))),
     path("api/contributors/", api_views.ContributorView.as_view(), name="contributors"),
-    path("api/login", api_views.Login.as_view(), name="login")
+    path("api/login", api_views.Login.as_view(), name="login"),
+    path("accounts/profile/reading_history", bookr.views.reading_history, name="reading_history")
 ]
