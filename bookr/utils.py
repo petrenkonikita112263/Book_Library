@@ -16,3 +16,12 @@ def get_books_read_by_month(username):
         "date_created__month"
     ).annotate(book_count=Count("book__title"))
     return books
+
+
+def get_books_read(username):
+    """Get the list of books read by a user.
+    :param: str username for whom the book records should be returned
+    :return: list of dict of books read and date of posting the review
+    """
+    books = Review.objects.filter(creator__username__contains=username).all()
+    return [{"title": book_read.book.title, "completed_on": book_read.date_created} for book_read in books]
