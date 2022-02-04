@@ -25,9 +25,9 @@ class Dev(Configuration):
     SECRET_KEY = 'django-insecure-uppxa=lcaa!(f-c@gr8r65$(&j6d0m)rp06+pmso%*qhu$&s9k'
 
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = values.BooleanValue(True)
 
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = values.ListValue([])
 
     # Application definition
 
