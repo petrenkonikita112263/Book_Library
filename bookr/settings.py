@@ -43,7 +43,8 @@ class Dev(Configuration):
         'reviews',
         'filter_demo',
         'book_management',
-        'debug_toolbar'
+        'debug_toolbar',
+        'crispy_forms'
     ]
 
     MIDDLEWARE = [
@@ -135,6 +136,8 @@ class Dev(Configuration):
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
     INTERNAL_IPS = ['127.0.0.1']
+
+    CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 class Prod(Dev):
