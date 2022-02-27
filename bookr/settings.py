@@ -42,10 +42,12 @@ class Dev(Configuration):
         'rest_framework.authtoken',
         'reviews',
         'filter_demo',
-        'book_management'
+        'book_management',
+        'debug_toolbar'
     ]
 
     MIDDLEWARE = [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
