@@ -44,7 +44,13 @@ class Dev(Configuration):
         'filter_demo',
         'book_management',
         'debug_toolbar',
-        'crispy_forms'
+        'crispy_forms',
+        'django.contrib.sites',
+        'django.contrib.admin',
+        'allauth',
+        'allauth.socialaccount',
+        'allauth.socialaccount.providers.github',
+        'allauth.socialaccount.providers.google'
     ]
 
     MIDDLEWARE = [
@@ -138,6 +144,8 @@ class Dev(Configuration):
     INTERNAL_IPS = ['127.0.0.1']
 
     CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+    SITE_ID = 1
 
 
 class Prod(Dev):
