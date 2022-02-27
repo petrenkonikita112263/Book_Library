@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 {% extends "reviews/base.html" %}
 
 {% block title %}
@@ -10,12 +11,7 @@
 
 {% block content %}
     <h2>Search for Books</h2>
-    <form>
-        {{ form.as_p }}
-        <p>
-            <input type="submit" name="submit_input" value="Submit Input">
-        </p>
-    </form>
+    {% crispy form %}
     {% if form.is_valid and search_item %}
         <h3>Search Results for
             <em>{{ search_item }}</em>
