@@ -210,7 +210,6 @@ def book_media(request, book_id):
         request, "reviews/instance_form.html", {
             "form": form,
             "instance": book,
-            "model_type": "Book",
-            "is_file_upload": True
+            "model_type": "Book"
         }
     )
