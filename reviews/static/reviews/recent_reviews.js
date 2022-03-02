@@ -76,4 +76,48 @@ class RecentReviews extends React.Component {
         this.state.currentUrl = this.state.previousUrl;
         this.fetchReviews();
     }
+
+    render() {
+        if (this.state.loading) {
+            return <h5>Loading...</h5>;
+        }
+
+        const previousButton = <button
+            className="btn btn-secondary"
+            onClick={() => {
+                this.loadPrevious()
+            }}
+            disabled={this.state.previousUrl == null}>
+            Previous
+        </button>;
+
+        const nextButton = <button
+            className="btn btn-secondary float-right"
+            onClick={() => {
+                this.loadNext()
+            }}
+            disabled={this.state.nextUrl == null}>
+            Next
+        </button>;
+
+        let reviewItems;
+
+        if (this.state.reviews.length === 0) {
+            reviewItems = <h5>No reviews to display.</h5>
+        } else {
+            reviewItems = this.state.reviews.map((review) => {
+                return <ReviewDisplay key={review.pk} review={review}/>
+            })
+        }
+
+        return <div>
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                {reviewItems}
+            </div>
+            <div>
+                {previousButton}
+                {nextButton}
+            </div>
+        </div>;
+    }
 }
