@@ -38,22 +38,42 @@ class RecentReviews extends React.Component {
     fetchReviews() {
         if (this.state.loading)
             return;
-        this.setState( {loading: true} );
+        this.setState({loading: true});
 
         fetch(this.state.currentUrl, {
-          method: 'GET',
-          headers: {
-              Accept: 'application/json'
-          }
+            method: 'GET',
+            headers: {
+                Accept: 'application/json'
+            }
         }).then((response) => {
-          return response.json()
+            return response.json()
         }).then((data) => {
-        this.setState({
+            this.setState({
                 loading: false,
                 reviews: data.results,
                 nextUrl: data.next,
                 previousUrl: data.previous
-          })
+            })
         })
+    }
+
+    componentDidMount() {
+        this.fetchReviews()
+    }
+
+    loadNext() {
+        if (this.state.nextUrl == null)
+            return;
+
+        this.state.currentUrl = this.state.nextUrl;
+        this.fetchReviews();
+    }
+
+    loadPrevious() {
+        if (this.state.previousUrl == null)
+            return;
+
+        this.state.currentUrl = this.state.previousUrl;
+        this.fetchReviews();
     }
 }
