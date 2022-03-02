@@ -34,4 +34,26 @@ class RecentReviews extends React.Component {
             loading: false
         };
     }
+
+    fetchReviews() {
+        if (this.state.loading)
+            return;
+        this.setState( {loading: true} );
+
+        fetch(this.state.currentUrl, {
+          method: 'GET',
+          headers: {
+              Accept: 'application/json'
+          }
+        }).then((response) => {
+          return response.json()
+        }).then((data) => {
+        this.setState({
+                loading: false,
+                reviews: data.results,
+                nextUrl: data.next,
+                previousUrl: data.previous
+          })
+        })
+    }
 }
