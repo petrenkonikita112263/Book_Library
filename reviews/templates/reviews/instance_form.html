@@ -1,4 +1,5 @@
 {% extends "reviews/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     {% if instance %}
@@ -20,12 +21,5 @@
         <p>For {{ related_model_type }} <em>{{ related_instance }}</em></p>
     {% endif %}
     <br>
-    <form method="post" {% if is_file_upload %} enctype="multipart/form-data" {% endif %}>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p>
-            <input type="submit" class="btn btn-primary"
-                   value="{% if instance %} Save {% else %} Create {% endif %}">
-        </p>
-    </form>
+    {% crispy form %}
 {% endblock %}

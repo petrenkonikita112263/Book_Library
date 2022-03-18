@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
 from django.core.files.images import ImageFile
+from django.core.paginator import Paginator
 
 from PIL import Image
 from io import BytesIO
@@ -15,7 +16,7 @@ from .forms import SearchForm, PublisherForm, ReviewForm, BookMediaForm
 
 def welcome_view(request):
     books_quantity = Book.objects.count()
-    return render(request, "reviews/base.html", {"books_quantity": books_quantity})
+    return render(request, "base.html", {"books_quantity": books_quantity})
 
 
 def book_search(request):
@@ -76,8 +77,12 @@ def book_list(request):
                 "number_of_reviews": number_of_reviews
             }
         )
+    paginator = Paginator(books_with_reviews, 3)
+    page_number = request.GET.get("page")
+    page_object = paginator.get_page(page_number)
     context = {
-        "books_with_reviews": books_with_reviews
+        "books_with_reviews": books_with_reviews,
+        "page_object": page_object
     }
     return render(request, "reviews/books_list.html", context)
 
@@ -205,7 +210,6 @@ def book_media(request, book_id):
         request, "reviews/instance_form.html", {
             "form": form,
             "instance": book,
-            "model_type": "Book",
-            "is_file_upload": True
+            "model_type": "Book"
         }
     )

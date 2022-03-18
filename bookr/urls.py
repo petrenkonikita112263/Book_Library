@@ -21,14 +21,22 @@ from django.conf.urls.static import static
 import bookr.views
 import reviews.views
 
+
 urlpatterns = [
     path('accounts/', include(('django.contrib.auth.urls', 'auth'),
                               namespace='accounts')),
     path('accounts/profile/', bookr.views.profile, name='profile'),
     path('admin/', admin.site.urls),
     path("", include("reviews.urls")),
-    path("book_search/", reviews.views.book_search, name="book_search")
+    path("book_search/", reviews.views.book_search, name="book_search"),
+    path("filter_demo/", include("filter_demo.urls")),
+    path("book_management/",  include("book_management.urls"))
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

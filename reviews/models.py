@@ -68,6 +68,9 @@ class Contributor(models.Model):
         )
         return f"{self.last_names}, {initials}"
 
+    def number_contributors(self):
+        return self.bookcontributor_set.count()
+
     def __str__(self):
         """Prints the contributor name(s)."""
         return self.initialled_name()
